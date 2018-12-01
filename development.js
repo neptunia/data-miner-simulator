@@ -16,6 +16,13 @@ function delete_data() {
 state = load();
 
 if (state) {
+	if (state.player.news.indexOf("rsc1") >= 0) {
+		itm = document.getElementById("rsc1div");
+	    itm.classList.remove("hidden");
+	}
+
+
+
 	if (state.player.upgrades.indexOf("rsc1") >= 0) {
 		itm = document.getElementById("rsc1btn");
 		itm.disabled = true;

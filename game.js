@@ -24,30 +24,11 @@ if (!state) {
 	  	happiness: 70, // user satisfaction
 	  	revenue: 1000, // combine happiness and revenue to get market share?
 	  	cost: 500,
-	  	ad_amt: 0,
+	  	ad_amt: 10,
 	  	ppu: 1, // profit per user
 	  	users_mod: 1,
+	  	news: [0],
 	  	upgrades: [],
-	  	research: [
-	  		{
-	  			id: "gmail",
-	  			unlock: 100000, // users
-	  			desc: "create an email client! is very good. +10 happiness",
-	  			cost: 100000,
-	  			time: 1000,
-	  			requirements: []
-	  		} // improving gmail -> steal user data will increase revenue per user 
-
-	  	],
-	  	acquisitions: [
-	  		{
-	  			id: "youtube",
-	  			unlock: 1000000, // users
-	  			desc: "buy a video client! is very good. +15 happiness",
-	  			cost: 1000000,
-	  			time: 0
-	  		}
-	  	],
 	  	money: 10000,
 	  	users: 10000
 	  },
@@ -65,6 +46,27 @@ if (!state) {
 }
 console.log(JSON.stringify(state));
 
+function display_news() {
+	if (state.player.money >= 100000 && state.player.news.indexOf("rsc1") < 0) {
+		state.player.news.push("rsc1");
+		display_modal("Your programmers are ready to improve the search features!");
+		return;
+	}
+
+	if (state.player.money >= 1000000 && state.player.news.indexOf("rsc2") < 0) {
+		state.player.news.push("rsc2");
+		display_modal("It's time to hop onto the internet mail bandwagon, and create our own client!");
+		return;
+	}
+
+}
+
+function display_modal(v) {
+	document.getElementById("dialog_data").innerHTML = v;
+	var dialog = document.querySelector('dialog');
+	dialog.showModal();
+}
+
 function update() {
 	if (!state) {
 		state = load();
@@ -72,6 +74,10 @@ function update() {
 	get_ad_aggro();
 	increment_users();
 	increase_money();
+	// check if requirements have been fulfilled to display news
+	display_news();
+
+
 	// if happiness below 50, lose members!!
 	// if no free users, happiness > 50, and happiness > npc's happiness, gain difference
 	try {
@@ -82,6 +88,7 @@ function update() {
  		//console.error(error);
 	}
 	
+	save(state);
 }
 
 function increment_users() {
