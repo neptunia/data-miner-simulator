@@ -26,6 +26,7 @@ if (!state) {
 	  	cost: 500,
 	  	ad_amt: 0,
 	  	ppu: 1, // profit per user
+	  	users_mod: 1,
 	  	upgrades: [],
 	  	research: [
 	  		{
@@ -78,7 +79,7 @@ function update() {
 		document.getElementById("users").innerHTML = "Users: "+state.player.users;
 		document.getElementById("pop").innerHTML = "Satisfaction: "+state.player.happiness+"%";
 	} catch(error) {
- 		console.error(error);
+ 		//console.error(error);
 	}
 	
 }
@@ -88,9 +89,14 @@ function increment_users() {
 		console.log("uh oh");
 		state = load();
 	}
-	console.log(state.player.users);
-	state.player.users = state.player.users + state.player.happiness - 50;
-	console.log(state.player.users);
+	//console.log(state.player.users);
+	const n = state.player.happiness - 50;
+	if (n > 10) {
+		state.player.users += Math.floor(n * state.player.users_mod);
+	} else {
+		state.player.users += n + 10;
+	}
+	//console.log(state.player.users);
 	save(state);
 }
 
@@ -117,7 +123,7 @@ function increase_money() {
 	try {
 		document.getElementById("income").innerHTML = "Income: $"+income;
 	} catch(error) {
-		console.error(error);
+		//console.error(error);
 	}
 	
 }
@@ -128,8 +134,8 @@ function rsc1() {
 		state = load();
 	}
 
-	if (state.player.money >= 10000 && state.player.upgrades.indexOf("rsc1") < 0) {
-		state.player.money -= 10000;
+	if (state.player.money >= 100000 && state.player.upgrades.indexOf("rsc1") < 0) {
+		state.player.money -= 100000;
 		state.player.happiness_modifiers += 5;
 		state.player.upgrades.push("rsc1");
 		save(state);
@@ -148,10 +154,101 @@ function rsc1() {
 
 }
 
+function rsc2() {
+	if (!state) {
+		console.log("uh oh");
+		state = load();
+	}
+
+	if (state.player.money >= 1000000 && state.player.upgrades.indexOf("rsc2") < 0) {
+		state.player.money -= 1000000;
+		state.player.cost += 500;
+		state.player.ppu += 0.25;
+		state.player.happiness_modifiers += 5;
+		state.player.upgrades.push("rsc2");
+		save(state);
+	}
+
+	if (state.player.upgrades.indexOf("rsc2") >= 0) {
+		itm = document.getElementById("rsc2btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	} else {
+		itm = document.getElementById("rsc2btn");
+		itm.disabled = false;
+		itm.innerHTML = "Purchase";
+
+	}
+
+}
+
+function rsc3() {
+	if (!state) {
+		console.log("uh oh");
+		state = load();
+	}
+
+	if (state.player.money >= 5000000 && state.player.upgrades.indexOf("rsc3") < 0) {
+		state.player.money -= 5000000;
+		state.player.cost += 1000;
+		state.player.ppu += 0.5;
+		state.player.happiness_modifiers += 5;
+		state.player.users_mod += 1;
+		state.player.upgrades.push("rsc3");
+		save(state);
+	}
+
+	if (state.player.upgrades.indexOf("rsc3") >= 0) {
+		itm = document.getElementById("rsc3btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	} else {
+		itm = document.getElementById("rsc3btn");
+		itm.disabled = false;
+		itm.innerHTML = "Purchase";
+
+	}
+
+}
+
+function buy1() {
+	if (!state) {
+		console.log("uh oh");
+		state = load();
+	}
+
+	if (state.player.money >= 500000000 && state.player.upgrades.indexOf("buy1") < 0) {
+		state.player.money -= 500000000;
+		state.player.cost += 1000;
+		state.player.ppu += 1;
+		state.player.users_mod += 2;
+		state.player.upgrades.push("buy1");
+		save(state);
+	}
+
+	if (state.player.upgrades.indexOf("buy1") >= 0) {
+		itm = document.getElementById("buy1btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	} else {
+		itm = document.getElementById("buy1btn");
+		itm.disabled = false;
+		itm.innerHTML = "Purchase";
+
+	}
+
+}
+
 function sliderChange(value) {
 	document.getElementById("adagg").innerHTML = "Advertisement Aggressiveness: "+value+"%"
 }
 
+try {
+	myRange.value = state.player.ad_amt;
+	sliderChange(state.player.ad_amt);
+} catch(error) {
+
+}
 
 window.setInterval(function(){
 	

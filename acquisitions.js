@@ -16,18 +16,18 @@ function delete_data() {
 state = load();
 
 if (state) {
-	if (state.player.upgrades.indexOf("rsc1") >= 0) {
-		itm = document.getElementById("rsc1btn");
+	if (state.player.upgrades.indexOf("buy1") >= 0) {
+		itm = document.getElementById("buy1btn");
 		itm.disabled = true;
 		itm.innerHTML = "Purchased";
 	}
-	if (state.player.upgrades.indexOf("rsc2") >= 0) {
-		itm = document.getElementById("rsc2btn");
+	if (state.player.upgrades.indexOf("buy2") >= 0) {
+		itm = document.getElementById("buy2btn");
 		itm.disabled = true;
 		itm.innerHTML = "Purchased";
 	}
-	if (state.player.upgrades.indexOf("rsc3") >= 0) {
-		itm = document.getElementById("rsc3btn");
+	if (state.player.upgrades.indexOf("buy3") >= 0) {
+		itm = document.getElementById("buy3btn");
 		itm.disabled = true;
 		itm.innerHTML = "Purchased";
 	}
