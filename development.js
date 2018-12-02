@@ -33,6 +33,11 @@ if (state) {
 	    itm.classList.remove("hidden");
 	}
 
+	if (state.player.news.indexOf("rsc5") >= 0) {
+		itm = document.getElementById("rsc5div");
+	    itm.classList.remove("hidden");
+	}
+
 
 	if (state.player.upgrades.indexOf("rsc1") >= 0) {
 		itm = document.getElementById("rsc1btn");
@@ -51,6 +56,12 @@ if (state) {
 	}
 	if (state.player.upgrades.indexOf("rsc4") >= 0) {
 		itm = document.getElementById("rsc4btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	}
+
+	if (state.player.upgrades.indexOf("rsc5") >= 0) {
+		itm = document.getElementById("rsc5btn");
 		itm.disabled = true;
 		itm.innerHTML = "Purchased";
 	}

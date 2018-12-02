@@ -12,6 +12,11 @@ function delete_data() {
 	localStorage.clear();
 }
 
+function delete_data_2() {
+	delete_data();
+	location.reload();
+}
+
 state = load();
 // new file
 if (!state) {
@@ -75,6 +80,12 @@ function display_news() {
 		return;
 	}
 
+	if (state.player.money >= 500000000 && state.player.news.indexOf("rsc5") < 0) {
+		state.player.news.push("rsc5");
+		display_modal("Online collaborative office suites are no longer a pipe dream. We can make it a reality.");
+		return;
+	}
+
 	if (state.player.money >= 10000000 && state.player.news.indexOf("buy1") < 0) {
 		state.player.news.push("buy1");
 		display_modal("A new \"smartphone\" related startup in California has caught our eye. We should buy them out!");
@@ -110,9 +121,15 @@ function display_news() {
 		return;
 	}
 
-	if (state.player.news.indexOf("newsbuy4") < 0 && state.player.news.indexOf("buy4") >= 0) {
+	if (state.player.news.indexOf("newsbuy4") < 0 && state.player.upgrades.indexOf("buy4") >= 0) {
 		state.player.news.push("newsbuy4");
 		display_modal("LMAO buying Moterola was a flop, we got a bunch of patents and a trade deal with Sam Snug but it didn't really profit us anything feelsbadman");
+		return;
+	}
+
+	if (state.player.news.indexOf("spec2") < 0 && state.player.income > 1000000) {
+		state.player.news.push("spec2");
+		display_modal("We make enough money to hire a full-time lobbying team!");
 		return;
 	}
 
@@ -131,8 +148,26 @@ function display_news() {
 			state.player.news.push("newsantitrust");
 			display_modal("Antitrust legislation is imposed against you, since you're buying too many companies! Take a $10000000 hit to profit.");
 			state.player.cost += 10000000;
+			save(state);
 		}
+
 	} 
+
+	if (state.player.happiness_modifiers >= 20 && state.player.ad_amt >= 20 && state.player.ppu >= 2 && state.player.news.indexOf("newsadblock") < 0) {
+		state.player.news.push("newsadblock");
+		display_modal("Tired of all the targeted ads they're seeing, some users have begun to install adblocking software on their browsers. This has slightly reduced the value of your users' data.");
+		state.player.ppu -= 0.5;
+		save(state);
+	}
+
+	if (state.player.money >= 1000000000 && state.player.news.indexOf("newshacked") < 0) {
+		state.player.news.push("newshacked");
+		state.player.news.push("spec1");
+		display_modal("Oh no! You've been hacked by Russian hackers! This has made many of your customers very unhappy with your services, and you lost a lot of money. Better fix up security soon!");
+		state.player.money -= 500000000
+		state.player.happiness_modifiers -= 10;
+		save(state);
+	}
 
 
 }
@@ -341,6 +376,34 @@ function rsc4() {
 
 }
 
+function rsc5() {
+	if (!state) {
+		console.log("uh oh");
+		state = load();
+	}
+
+	if (state.player.money >= 500000000 && state.player.upgrades.indexOf("rsc5") < 0) {
+		state.player.money -= 500000000;
+		state.player.cost += 1000;
+		state.player.users_mod += 1;
+		state.player.happiness_modifiers += 5;
+		state.player.upgrades.push("rsc5");
+		save(state);
+	}
+
+	if (state.player.upgrades.indexOf("rsc5") >= 0) {
+		itm = document.getElementById("rsc5btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	} else {
+		itm = document.getElementById("rsc5btn");
+		itm.disabled = false;
+		itm.innerHTML = "Purchase";
+
+	}
+
+}
+
 function buy1() {
 	if (!state) {
 		console.log("uh oh");
@@ -496,6 +559,58 @@ function buy6() {
 		itm.innerHTML = "Purchased";
 	} else {
 		itm = document.getElementById("buy6btn");
+		itm.disabled = false;
+		itm.innerHTML = "Purchase";
+
+	}
+
+}
+
+function spec1() {
+	if (!state) {
+		console.log("uh oh");
+		state = load();
+	}
+
+	if (state.player.upgrades.indexOf("spec1") < 0) {
+		state.player.cost += 1000;
+		state.player.happiness_modifiers += 10;
+		state.player.upgrades.push("spec1");
+		save(state);
+	}
+
+	if (state.player.upgrades.indexOf("spec1") >= 0) {
+		itm = document.getElementById("spec1btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	} else {
+		itm = document.getElementById("spec1btn");
+		itm.disabled = false;
+		itm.innerHTML = "Purchase";
+
+	}
+
+}
+
+function spec2() {
+	if (!state) {
+		console.log("uh oh");
+		state = load();
+	}
+
+	if (state.player.upgrades.indexOf("spec2") < 0) {
+		state.player.revenue += 1000000;
+		state.player.happiness_modifiers -= 5;
+		state.player.upgrades.push("spec2");
+		save(state);
+	}
+
+	if (state.player.upgrades.indexOf("spec2") >= 0) {
+		itm = document.getElementById("spec2btn");
+		itm.disabled = true;
+		itm.innerHTML = "Purchased";
+	} else {
+		itm = document.getElementById("spec2btn");
 		itm.disabled = false;
 		itm.innerHTML = "Purchase";
 
