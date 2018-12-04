@@ -17,6 +17,7 @@ function delete_data_2() {
 	location.reload();
 }
 
+
 state = load();
 // new file
 if (!state) {
@@ -53,6 +54,19 @@ if (!state) {
 
 }
 console.log(JSON.stringify(state));
+
+
+function demo_mode() {
+	state.player.users_mod = 1000;
+	state.player.ppu = 4;
+	state.player.users = 1000000;
+
+}
+
+function demo_mode_2() {
+	state.player.money = 10000000000;
+
+}
 
 function display_news() {
 	if (state.player.money >= 100000 && state.player.news.indexOf("rsc1") < 0) {
@@ -92,7 +106,7 @@ function display_news() {
 		return;
 	}
 
-	if (state.player.money >= 500000000 && state.player.news.indexOf("buy2") < 0) {
+	if (state.player.money >= 300000000 && state.player.news.indexOf("buy2") < 0) {
 		state.player.news.push("buy2");
 		display_modal("Our scouts have discovered a video sharing business.");
 		return;
@@ -438,10 +452,10 @@ function buy2() {
 		state = load();
 	}
 
-	if (state.player.money >= 500000000 && state.player.upgrades.indexOf("buy2") < 0) {
-		state.player.money -= 500000000;
+	if (state.player.money >= 300000000 && state.player.upgrades.indexOf("buy2") < 0) {
+		state.player.money -= 300000000;
 		state.player.cost += 1000;
-		state.player.ppu += 1;
+		state.player.f += 1;
 		state.player.users_mod += 2;
 		state.player.upgrades.push("buy2");
 		save(state);
